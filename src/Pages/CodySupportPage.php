@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Http;
 
 class CodySupportPage extends Page
 {
-    protected static string $view = 'filament-cody::pages.cody-support';
+    protected string $view = 'filament-cody::pages.cody-support';
 
     protected static ?string $slug = 'cody-support';
 

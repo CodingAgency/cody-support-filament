@@ -12,12 +12,21 @@
     "require": {
         "php": "^8.1",
         "filament/filament": "^3.0|^4.0",
-        "livewire/livewire": "^3.0|^4.0",
         "illuminate/support": "^10.0|^11.0|^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "pestphp/pest": "^2.0|^3.0",
+        "pestphp/pest-plugin-laravel": "^2.0|^3.0"
     },
     "autoload": {
         "psr-4": {
             "CodySupport\\FilamentCody\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CodySupport\\FilamentCody\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -25,6 +34,11 @@
             "providers": [
                 "CodySupport\\FilamentCody\\CodyServiceProvider"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     },
     "minimum-stability": "dev",
