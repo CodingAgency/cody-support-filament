@@ -23,3 +23,8 @@ it('has translatable navigation label', function () {
 
     expect($label)->toBeString()->not->toBeEmpty();
 });
+
+it('implements HasForms', function () {
+    expect(CodySupportPage::class)
+        ->toImplement(\Filament\Forms\Contracts\HasForms::class);
+});
