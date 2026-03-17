@@ -26,12 +26,12 @@ class CodySupportPage extends Page
 
     public static function getNavigationLabel(): string
     {
-        return '🛟 ' . __('cody::cody.navigation.label');
+        return __('cody::cody.navigation.label');
     }
 
     public static function getNavigationIcon(): ?string
     {
-        return null;
+        return 'heroicon-o-lifebuoy';
     }
 
     public function getTitle(): string
