@@ -6,17 +6,13 @@ use CodySupport\FilamentCody\CodyPlugin;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Http;
 
-class CodySupportPage extends Page implements HasForms
+class CodySupportPage extends Page
 {
-    use InteractsWithForms;
-
     protected string $view = 'filament-cody::pages.cody-support';
 
     protected static ?string $slug = 'cody-support';
@@ -53,7 +49,7 @@ class CodySupportPage extends Page implements HasForms
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         $plugin = CodyPlugin::get();
 
