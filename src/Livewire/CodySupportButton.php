@@ -36,7 +36,7 @@ class CodySupportButton extends Component implements HasActions, HasForms
             ->tooltip(__('cody::cody.button.tooltip'))
             ->button()
             ->color('gray')
-            ->size('sm')
+            ->size('lg')
             ->modalHeading(__('cody::cody.modal.heading'))
             ->modalDescription(__('cody::cody.modal.description'))
             ->modalSubmitActionLabel(__('cody::cody.modal.submit'))

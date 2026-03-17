@@ -5,7 +5,7 @@ namespace CodySupport\FilamentCody;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\View\PanelsRenderHook;
-use Illuminate\Support\Facades\Blade;
+use Illuminate\Contracts\View\View;
 
 class CodyPlugin implements Plugin
 {
@@ -56,7 +56,7 @@ class CodyPlugin implements Plugin
     {
         $panel->renderHook(
             PanelsRenderHook::BODY_END,
-            fn (): string => Blade::render('@livewire(\'cody-support-button\')'),
+            fn (): View => view('filament-cody::render-hook'),
         );
     }
 
