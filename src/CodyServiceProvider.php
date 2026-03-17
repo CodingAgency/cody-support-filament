@@ -2,9 +2,7 @@
 
 namespace CodySupport\FilamentCody;
 
-use CodySupport\FilamentCody\Livewire\CodySupportButton;
 use Illuminate\Support\ServiceProvider;
-use Livewire\Livewire;
 
 class CodyServiceProvider extends ServiceProvider
 {
@@ -26,7 +24,5 @@ class CodyServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/lang' => $this->app->langPath('vendor/cody'),
         ], 'cody-lang');
-
-        Livewire::component('cody-support-button', CodySupportButton::class);
     }
 }

@@ -2,10 +2,9 @@
 
 namespace CodySupport\FilamentCody;
 
+use CodySupport\FilamentCody\Pages\CodySupportPage;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Filament\View\PanelsRenderHook;
-use Illuminate\Contracts\View\View;
 
 class CodyPlugin implements Plugin
 {
@@ -54,10 +53,9 @@ class CodyPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->renderHook(
-            PanelsRenderHook::BODY_END,
-            fn (): View => view('filament-cody::render-hook'),
-        );
+        $panel->pages([
+            CodySupportPage::class,
+        ]);
     }
 
     public function boot(Panel $panel): void

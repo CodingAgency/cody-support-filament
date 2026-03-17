@@ -2,9 +2,13 @@
 
 return [
 
-    'button' => [
-        'label' => "\u{1F6DF}",
-        'tooltip' => 'Support',
+    'navigation' => [
+        'label' => 'Support',
+    ],
+
+    'page' => [
+        'heading' => 'Need help?',
+        'description' => 'Click the button above to send us a message.',
     ],
 
     'modal' => [

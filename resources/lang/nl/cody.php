@@ -2,9 +2,13 @@
 
 return [
 
-    'button' => [
-        'label' => "\u{1F6DF}",
-        'tooltip' => 'Support',
+    'navigation' => [
+        'label' => 'Support',
+    ],
+
+    'page' => [
+        'heading' => 'Hulp nodig?',
+        'description' => 'Klik op de knop hierboven om een bericht te versturen.',
     ],
 
     'modal' => [
