@@ -1,0 +1,32 @@
+{
+    "name": "codingagency/cody-support-filament",
+    "description": "Filament plugin for Cody.support issue reporting",
+    "keywords": ["filament", "laravel", "cody", "support", "helpdesk"],
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/CodingAgency/filament-cody",
+    "support": {
+        "issues": "https://github.com/CodingAgency/filament-cody/issues",
+        "source": "https://github.com/CodingAgency/filament-cody"
+    },
+    "require": {
+        "php": "^8.1",
+        "filament/filament": "^3.0|^4.0",
+        "livewire/livewire": "^3.0|^4.0",
+        "illuminate/support": "^10.0|^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CodySupport\\FilamentCody\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CodySupport\\FilamentCody\\CodyServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
