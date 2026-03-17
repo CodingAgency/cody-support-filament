@@ -55,7 +55,7 @@ class CodyPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel->renderHook(
-            PanelsRenderHook::GLOBAL_SEARCH_AFTER,
+            PanelsRenderHook::BODY_END,
             fn (): string => Blade::render('@livewire(\'cody-support-button\')'),
         );
     }
