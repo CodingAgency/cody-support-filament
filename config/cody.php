@@ -35,4 +35,15 @@ return [
 
     'api_url' => env('CODY_API_URL', 'https://cody.support/api/v1'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Company Name
+    |--------------------------------------------------------------------------
+    |
+    | The company name displayed in the Cody.support info block.
+    |
+    */
+
+    'company_name' => env('CODY_COMPANY_NAME', 'Coding Agency'),
+
 ];

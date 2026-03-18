@@ -3,13 +3,17 @@
 namespace CodySupport\FilamentCody\Pages;
 
 use CodySupport\FilamentCody\CodyPlugin;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\HtmlString;
 
 class CodySupportPage extends Page
 {
@@ -44,7 +48,7 @@ class CodySupportPage extends Page
     public function mount(): void
     {
         $this->form->fill([
-            'type' => 'support',
+            'type' => null,
             'priority' => 'medium',
         ]);
     }
@@ -55,51 +59,133 @@ class CodySupportPage extends Page
 
         return $form
             ->schema([
-                TextInput::make('subject')
-                    ->label(__('cody::cody.fields.subject.label'))
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder(__('cody::cody.fields.subject.placeholder')),
+                Section::make(__('cody::cody.form.type_section'))
+                    ->schema([
+                        Radio::make('type')
+                            ->label(__('cody::cody.fields.type.label'))
+                            ->options($plugin->getTypes())
+                            ->descriptions($this->getTypeDescriptions())
+                            ->required()
+                            ->live(),
+                    ]),
 
-                Textarea::make('body')
-                    ->label(__('cody::cody.fields.body.label'))
-                    ->required()
-                    ->rows(5)
-                    ->placeholder(__('cody::cody.fields.body.placeholder')),
-
-                Select::make('type')
-                    ->label(__('cody::cody.fields.type.label'))
-                    ->options($plugin->getTypes())
-                    ->required(),
-
-                Select::make('priority')
-                    ->label(__('cody::cody.fields.priority.label'))
-                    ->options($plugin->getPriorities())
-                    ->required(),
+                Section::make(__('cody::cody.form.details_section'))
+                    ->schema(fn (Get $get): array => $this->getFieldsForType($get('type'), $plugin))
+                    ->visible(fn (Get $get): bool => filled($get('type'))),
             ])
             ->statePath('data');
+    }
+
+    protected function getTypeDescriptions(): array
+    {
+        return collect(__('cody::cody.fields.type.descriptions'))->toArray();
+    }
+
+    protected function getFieldsForType(?string $type, CodyPlugin $plugin): array
+    {
+        $typeConfig = __('cody::cody.types.' . ($type ?? 'support'));
+
+        $fields = [
+            TextInput::make('subject')
+                ->label($typeConfig['subject_label'] ?? __('cody::cody.fields.subject.label'))
+                ->required()
+                ->maxLength(255)
+                ->placeholder($typeConfig['subject_placeholder'] ?? ''),
+
+            Textarea::make('body')
+                ->label($typeConfig['body_label'] ?? __('cody::cody.fields.body.label'))
+                ->required()
+                ->rows(5)
+                ->placeholder($typeConfig['body_placeholder'] ?? ''),
+        ];
+
+        // Type-specific metadata fields
+        $metadataFields = $this->getMetadataFieldsForType($type);
+        $fields = array_merge($fields, $metadataFields);
+
+        // Priority with descriptions
+        $fields[] = Radio::make('priority')
+            ->label(__('cody::cody.fields.priority.label'))
+            ->options($plugin->getPriorities())
+            ->descriptions(__('cody::cody.fields.priority.descriptions'))
+            ->default($type === 'bug' ? 'high' : 'medium')
+            ->required();
+
+        // Hint for current type
+        if (isset($typeConfig['hint'])) {
+            array_unshift($fields, Placeholder::make('type_hint')
+                ->label('')
+                ->content(new HtmlString('<div class="text-sm text-gray-500 dark:text-gray-400 italic">' . e($typeConfig['hint']) . '</div>')));
+        }
+
+        return $fields;
+    }
+
+    protected function getMetadataFieldsForType(?string $type): array
+    {
+        return match ($type) {
+            'bug' => [
+                Textarea::make('metadata.expected_behavior')
+                    ->label(__('cody::cody.types.bug.expected_behavior'))
+                    ->rows(3)
+                    ->placeholder(__('cody::cody.types.bug.expected_behavior_placeholder')),
+                Textarea::make('metadata.actual_behavior')
+                    ->label(__('cody::cody.types.bug.actual_behavior'))
+                    ->rows(3)
+                    ->placeholder(__('cody::cody.types.bug.actual_behavior_placeholder')),
+                Textarea::make('metadata.steps_to_reproduce')
+                    ->label(__('cody::cody.types.bug.steps_to_reproduce'))
+                    ->rows(3)
+                    ->placeholder(__('cody::cody.types.bug.steps_to_reproduce_placeholder')),
+                TextInput::make('metadata.environment')
+                    ->label(__('cody::cody.types.bug.environment'))
+                    ->placeholder(__('cody::cody.types.bug.environment_placeholder')),
+            ],
+            'task' => [
+                Textarea::make('metadata.acceptance_criteria')
+                    ->label(__('cody::cody.types.task.acceptance_criteria'))
+                    ->rows(3)
+                    ->placeholder(__('cody::cody.types.task.acceptance_criteria_placeholder')),
+            ],
+            'improvement' => [
+                Textarea::make('metadata.current_situation')
+                    ->label(__('cody::cody.types.improvement.current_situation'))
+                    ->rows(3)
+                    ->placeholder(__('cody::cody.types.improvement.current_situation_placeholder')),
+                Textarea::make('metadata.desired_situation')
+                    ->label(__('cody::cody.types.improvement.desired_situation'))
+                    ->rows(3)
+                    ->placeholder(__('cody::cody.types.improvement.desired_situation_placeholder')),
+            ],
+            default => [],
+        };
     }
 
     public function submit(): void
     {
         $data = $this->form->getState();
 
+        $payload = [
+            'name' => auth()->user()?->name,
+            'email' => auth()->user()?->email,
+            'subject' => $data['subject'],
+            'body' => $data['body'],
+            'type' => $data['type'],
+            'priority' => $data['priority'],
+            'project_key' => config('cody.project_key'),
+            'metadata' => array_filter(array_merge(
+                $data['metadata'] ?? [],
+                [
+                    'url' => url()->current(),
+                    'user_agent' => request()->userAgent(),
+                    'environment_app' => app()->environment(),
+                ],
+            )),
+        ];
+
         try {
             $response = Http::withToken(config('cody.api_token'))
-                ->post(config('cody.api_url') . '/issues', [
-                    'name' => auth()->user()?->name,
-                    'email' => auth()->user()?->email,
-                    'subject' => $data['subject'],
-                    'body' => $data['body'],
-                    'type' => $data['type'],
-                    'priority' => $data['priority'],
-                    'project_key' => config('cody.project_key'),
-                    'metadata' => [
-                        'url' => url()->current(),
-                        'user_agent' => request()->userAgent(),
-                        'environment' => app()->environment(),
-                    ],
-                ]);
+                ->post(config('cody.api_url') . '/issues', $payload);
 
             if ($response->successful()) {
                 Notification::make()
@@ -109,7 +195,7 @@ class CodySupportPage extends Page
                     ->send();
 
                 $this->form->fill([
-                    'type' => 'support',
+                    'type' => null,
                     'priority' => 'medium',
                 ]);
             } else {

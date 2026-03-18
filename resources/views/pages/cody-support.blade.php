@@ -1,17 +1,55 @@
 <x-filament-panels::page>
-    <div class="max-w-2xl">
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-            {{ __('cody::cody.page.description') }}
-        </p>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {{-- Form --}}
+        <div class="lg:col-span-2">
+            <form wire:submit="submit">
+                {{ $this->form }}
 
-        <form wire:submit="submit">
-            {{ $this->form }}
+                @if($this->data['type'] ?? null)
+                    <div class="mt-6">
+                        <x-filament::button type="submit" size="lg">
+                            {{ __('cody::cody.modal.submit') }}
+                        </x-filament::button>
+                    </div>
+                @endif
+            </form>
+        </div>
 
-            <div class="mt-6">
-                <x-filament::button type="submit">
-                    {{ __('cody::cody.modal.submit') }}
-                </x-filament::button>
+        {{-- Cody.support info block --}}
+        <div class="lg:col-span-1">
+            <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">🤖</div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                        Cody.support
+                    </h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        {{ __('cody::cody.info.description', ['company' => config('cody.company_name')]) }}
+                    </p>
+
+                    <div class="mt-4 space-y-3 text-left">
+                        <div class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                            <span>📋</span>
+                            <span>{{ __('cody::cody.info.feature_track') }}</span>
+                        </div>
+                        <div class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                            <span>💬</span>
+                            <span>{{ __('cody::cody.info.feature_communicate') }}</span>
+                        </div>
+                        <div class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                            <span>📊</span>
+                            <span>{{ __('cody::cody.info.feature_status') }}</span>
+                        </div>
+                    </div>
+
+                    <a href="https://cody.support"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-colors w-full">
+                        🤖 {{ __('cody::cody.info.login_button') }}
+                    </a>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </x-filament-panels::page>

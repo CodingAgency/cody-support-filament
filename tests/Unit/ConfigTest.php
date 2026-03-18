@@ -19,3 +19,7 @@ it('has api_url with default value', function () {
 it('reads api_token from env', function () {
     expect(config('cody.api_token'))->not->toBeNull();
 });
+
+it('has company_name config key with default', function () {
+    expect(config('cody.company_name'))->toBe('Coding Agency');
+});
