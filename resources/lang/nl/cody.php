@@ -48,6 +48,10 @@ return [
                 'idea' => 'Nieuw idee of voorstel',
             ],
         ],
+        'url' => [
+            'label' => 'URL (waar gaat het over?)',
+            'placeholder' => 'https://voorbeeld.nl/pagina',
+        ],
         'priority' => [
             'label' => 'Prioriteit',
             'options' => [

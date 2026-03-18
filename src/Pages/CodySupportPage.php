@@ -106,6 +106,12 @@ class CodySupportPage extends Page
         $metadataFields = $this->getMetadataFieldsForType($type);
         $fields = array_merge($fields, $metadataFields);
 
+        // URL field (editable, prefilled with current page)
+        $fields[] = TextInput::make('metadata.url')
+            ->label(__('cody::cody.fields.url.label'))
+            ->placeholder(__('cody::cody.fields.url.placeholder'))
+            ->default(url()->previous() !== url()->current() ? url()->previous() : '');
+
         // Priority with descriptions
         $fields[] = Radio::make('priority')
             ->label(__('cody::cody.fields.priority.label'))
@@ -179,7 +185,7 @@ class CodySupportPage extends Page
             'metadata' => array_filter(array_merge(
                 $data['metadata'] ?? [],
                 [
-                    'url' => url()->current(),
+                    'url' => $data['metadata']['url'] ?? request()->url(),
                     'user_agent' => request()->userAgent(),
                     'environment_app' => app()->environment(),
                 ],

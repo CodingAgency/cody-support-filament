@@ -48,6 +48,10 @@ return [
                 'idea' => 'A new idea or proposal',
             ],
         ],
+        'url' => [
+            'label' => 'URL (which page is this about?)',
+            'placeholder' => 'https://example.com/page',
+        ],
         'priority' => [
             'label' => 'Priority',
             'options' => [
