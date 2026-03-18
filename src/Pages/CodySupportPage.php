@@ -7,7 +7,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Section;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
