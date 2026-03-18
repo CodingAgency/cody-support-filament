@@ -12,7 +12,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\HtmlString;
 
@@ -24,7 +24,7 @@ class CodySupportPage extends Page
 
     protected static ?int $navigationSort = 100;
 
-    protected ?MaxWidth $maxContentWidth = MaxWidth::Full;
+    protected Width|string|null $maxContentWidth = Width::Full;
 
     public ?array $data = [];
 
