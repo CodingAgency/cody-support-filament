@@ -1,7 +1,7 @@
 <x-filament-panels::page>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="flex flex-col-reverse lg:flex-row gap-6">
         {{-- Form --}}
-        <div class="lg:col-span-2">
+        <div class="flex-1 min-w-0">
             <form wire:submit="submit">
                 {{ $this->form }}
 
@@ -16,11 +16,11 @@
         </div>
 
         {{-- Cody.support info block --}}
-        <div class="lg:col-span-1">
-            <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+        <div class="lg:w-80 shrink-0">
+            <div class="rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 sticky top-6">
                 <div class="text-center">
                     <div class="text-4xl mb-3">🤖</div>
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                         Cody.support
                     </h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
@@ -29,15 +29,15 @@
 
                     <div class="mt-4 space-y-3 text-left">
                         <div class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
-                            <span>📋</span>
+                            <span class="shrink-0">📋</span>
                             <span>{{ __('cody::cody.info.feature_track') }}</span>
                         </div>
                         <div class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
-                            <span>💬</span>
+                            <span class="shrink-0">💬</span>
                             <span>{{ __('cody::cody.info.feature_communicate') }}</span>
                         </div>
                         <div class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
-                            <span>📊</span>
+                            <span class="shrink-0">📊</span>
                             <span>{{ __('cody::cody.info.feature_status') }}</span>
                         </div>
                     </div>

@@ -120,7 +120,7 @@ return [
     'info' => [
         'description' => 'Het AI-hulpje van :company. Hier kun je bugs melden, taken doorgeven, ideeën delen en de status van je verzoeken volgen.',
         'feature_track' => 'Volg de voortgang van je meldingen',
-        'feature_communicate' => 'Communiceer direct met het team',
+        'feature_communicate' => 'Kom direct in contact',
         'feature_status' => 'Bekijk de status van alle verzoeken',
         'login_button' => 'Login bij Cody.support',
     ],
