@@ -146,9 +146,6 @@ class CodySupportPage extends Page
                     ->label(__('cody::cody.types.bug.steps_to_reproduce'))
                     ->rows(3)
                     ->placeholder(__('cody::cody.types.bug.steps_to_reproduce_placeholder')),
-                TextInput::make('metadata.environment')
-                    ->label(__('cody::cody.types.bug.environment'))
-                    ->placeholder(__('cody::cody.types.bug.environment_placeholder')),
             ],
             'task' => [
                 Textarea::make('metadata.acceptance_criteria')
